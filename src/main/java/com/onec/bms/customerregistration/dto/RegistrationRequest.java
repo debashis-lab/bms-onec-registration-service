@@ -1,54 +1,50 @@
-package com.onec.bms.customerregistration.model;
+package com.onec.bms.customerregistration.dto;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "customers")
-public class Customer {
+@Schema(description = "Customer registration request")
+public class RegistrationRequest {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(nullable = false)
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
+    @Schema(description = "Customer's full name", example = "John Doe")
     private String name;
     
-    @Column(nullable = false, unique = true)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please provide a valid email address")
+    @Schema(description = "Customer's email address", example = "john.doe@example.com")
     private String email;
     
-    @Column(nullable = false)
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
+    @Schema(description = "Customer's password", example = "password123")
     private String password;
     
-    @Column(name = "phone_number")
+    @Schema(description = "Customer's phone number", example = "+1234567890")
     private String phoneNumber;
     
+    @Schema(description = "Customer's address", example = "123 Main St")
     private String address;
+    
+    @Schema(description = "Customer's city", example = "New York")
     private String city;
+    
+    @Schema(description = "Customer's state", example = "NY")
     private String state;
     
-    @Column(name = "zip_code")
+    @Schema(description = "Customer's zip code", example = "10001")
     private String zipCode;
     
+    @Schema(description = "Customer's country", example = "USA")
     private String country;
     
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
-    
     // Default constructor
-    public Customer() {
-        this.registrationDate = LocalDateTime.now();
-    }
+    public RegistrationRequest() {}
     
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
     public String getName() {
         return name;
     }
@@ -120,13 +116,4 @@ public class Customer {
     public void setCountry(String country) {
         this.country = country;
     }
-    
-    public LocalDateTime getRegistrationDate() {
-        return registrationDate;
-    }
-    
-    public void setRegistrationDate(LocalDateTime registrationDate) {
-        this.registrationDate = registrationDate;
-    }
 }
-
